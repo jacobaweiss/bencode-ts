@@ -32,4 +32,37 @@ describe('bencoder', () => {
       });
     });
   })
+
+  describe('decode', () => {
+    describe('strings', () => {
+      it('decodes strings properly', () => {
+        let encoded = bencoder.encode('abc123');
+        expect(bencoder.decode(encoded).toString()).toEqual('abc123');
+      });
+    });
+
+    describe('numbers', ()=> {
+      it('decodes numbers properly', ()=> {
+        expect(bencoder.decode(bencoder.encode(12345))).toEqual(12345);
+        expect(bencoder.decode(bencoder.encode(-50))).toEqual(-50);
+      });
+    });
+
+    describe('lists', () => {
+      it('decodes lists properly', () => {
+        let encoded = bencoder.encode(['bencode', -20]);
+
+        expect(bencoder.decode(encoded)).toEqual(['bencode', -20]);
+      });
+    });
+
+    describe('objects', () => {
+      it('decodes objects properly', () => {
+        let obj = { 'wiki': 'bencode', 'meaning': 42 };
+        let encoded = bencoder.encode(obj);
+
+        expect(bencoder.decode(encoded)).toEqual(obj);
+      });
+    });
+  });
 });
